@@ -1,0 +1,271 @@
+IF
+Def And 2 2 Bi
+	I-Bi ;
+	I-Bi ;
+	Re '0' If v0 = '0' ;
+	Re v1 ;
+End
+
+IF
+Def And4 4 2 Bi
+	I-Bi ;
+	I-Bi ;
+	I-Bi ;
+	I-Bi ;
+	And v0 v1 ;
+	And v2 v3 ;
+	And v4 v5 ;
+	Re v6 ;
+End
+
+IF
+Def Xor 2 2 Bi
+	I-Bi ;
+	I-Bi ;
+	Re '0' If v0 = v1 ;
+	Re '1' ;
+End
+
+IF
+Def Or 2 2 Bi
+	I-Bi ;
+	I-Bi ;
+	Re v1 If v0 = '0' ;
+	Re '1' ;
+End
+
+IF
+Def Not 1 2 Bi
+	I-Bi ;
+	Re '1' If v0 = '0' ;
+	Re '0' ;
+End
+
+IF
+Def Plus01 2 3 L
+	I-Bi ;
+	I-L ;
+	Re v1 If v0 = '0' ;
+	C v0 v1 ;
+	Re v3 If v1 = 'E' ;
+	L v1 ;
+	R v1 ;
+	Xor v0 v5 ;
+	And v0 v5 ;
+	Plus01 v8 v6 ;
+	C v7 v9 ;
+	Re v10 ;
+End
+
+IF
+Def Plus 2 4 L
+	I-L ;
+	I-L ;
+	Re v0 If v1 = 'E' ;
+	Re v1 If v0 = 'E' ;
+	L v0 ;
+	R v0 ;
+	L v1 ;
+	R v1 ;
+	Plus v5 v7 ;
+	And v4 v6 ;
+	Plus01 v9 v8 ;
+	Xor v4 v6 ;
+	C v11 v10 ;
+	Re v12 ;
+End
+
+IF
+Def Mul01 2 3 L
+	I-Bi ;
+	I-L ;
+	Re v1 If v0 = '1' ;
+	Re 'E' ;
+End
+
+IF
+Def Mul 2 5 L
+	I-L ;
+	I-L ;
+	Re v0 If v0 = 'E' ;
+	Re v1 If v1 = 'E' ;
+	L v0 ;
+	R v0 ;
+	L v1 ;
+	R v1 ;
+	Mul v5 v1 ;
+	Mul01 v4 v7 ;
+	And v4 v6 ;
+	Plus v8 v9 ;
+	C v10 v11 ;
+	Re v12 ;
+End
+
+IF
+Def Mul01' 2 3 L
+	I-Bi ;
+	I-L ;
+	Re v1 If v0 = '1' ;
+	ToL v0 ;
+	Re v3 ;
+End
+
+IF
+Def AnotherMul 2 5 L
+	I-L ;
+	I-L ;
+	Re v0 If v0 = 'E' ;
+	Re v1 If v1 = 'E' ;
+	R v0 ;
+	AnotherMul v4 v1 ;
+	L v0 ;
+	Mul01' v6 v1 ;
+	L v7 ;
+	R v7 ;
+	Plus v5 v9 ;
+	C v8 v10 ;
+	Re v11 ;
+End
+
+EF
+AnotherMul
+1 1 0 0 0 1 
+1 1 0 0 1 1
+
+EF
+AnotherMul
+1 0 0 0 1 
+1 1 0 0 1 1 
+
+EF
+Mul
+0 0 1 1 
+1 1 0 1 
+
+yaya
+
+EXIT
+
+EF
+Mul01
+1
+1 0 1 1
+
+EF
+Mul
+1 0 1 1
+0 1 0 1
+
+EF
+Mul
+1 0 1
+0 1 1
+
+EF
+Mul
+1 0 1 1 0 1 0 1
+1 0 1 0 1 0 1 1
+
+yaya
+
+fafa
+
+wen
+0 1 0 0 1 0 1 0 1
+0 1 0 1 1 1 0 1
+
+EXIT
+
+wen
+1 0 0 1
+1 1 0 1 1
+
+EF
+Plus
+1
+E
+
+EF
+Plus
+1 0 1 1
+0 1 0 1
+
+EF
+Plus
+0 1 1
+1 0 1
+
+EF
+Plus
+1 1
+0 1
+
+EF
+Plus
+1 0 0 1 0 1 1 1
+0 1 1 1 1 0 0 1
+
+EF
+Plus
+0
+E
+
+
+
+EXIT
+
+EF
+Plus01
+1
+1
+
+EF
+Plus01
+1
+1 1 0 1
+
+
+OF And4
+
+
+OF Not
+
+
+EF And
+1
+1
+
+
+EF 
+And4
+1
+1
+1
+1
+
+
+PS
+
+Plus01
+
+Data1
+
+1
+1 1 0 1
+0 0 1 1
+
+1
+1 0 1
+0 1 1
+
+1
+0 1
+1 1
+
+Data2
+
+0
+1
+1
+
+

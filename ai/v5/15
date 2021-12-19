@@ -1,0 +1,24 @@
+Def Cmp 2 0 Cmp-res
+	I-L ;
+	I-L ;
+	Geta ;
+	Re v2 If v0 = v1  ;
+	R v0 ;
+	Getc ;
+	Re v5 If v1 = "E"  ;
+	L v0 ;
+	Getb ;
+	Re v8 If v0 = v4  ;
+	R v1 ;
+	L v4 ;
+	Cmp v4 v10 ;
+	Re v12 If v8 = v12  ;
+	Re v12 If v5 = v12  ;
+	Re v2 If v4 = v10  ;
+	L v10 ;
+	L v1 ;
+	Re v2 If v7 = v17  ;
+	Re v8 If v7 = "0"  ;
+	Re v5 ;
+End
+

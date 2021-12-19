@@ -1,0 +1,314 @@
+IT
+Bi 2 0 1
+Def T-Bi 1 0 R
+	I ;
+	Re "A" If v0 = "0" ;
+	Re "A" If v0 = "1" ;
+	Re "F" ;
+End
+
+IT
+L 1 E
+Def T-L 1 0 R
+	I ;
+	Re "A" If v0 = "E" ;
+	L v0 ;
+	T-Bi v2 ;
+	Re "F" If v3 = "F" ;
+	R v0 ;
+	T-L v5 ;
+	Re "A" If v6 = "A" ;
+	Re "F" ;
+End
+
+IT
+Cmp-res 3 < = >
+Def T-Cmp-res 1 0 R
+	I ;
+	Re "A" If v0 = "<" ;
+	Re "A" If v0 = "=" ;
+	Re "A" If v0 = ">" ;
+	Re "F" ;
+End
+
+IT
+Bo-opt 4 andb orb notb xorb
+Def T-Bo-opt 1 0 R
+	I ;
+	Re "A" If v0 = "andb" ;
+	Re "A" If v0 = "orb" ;
+	Re "A" If v0 = "notb" ;
+	Re "A" If v0 = "xorb" ;
+	Re "F" ;
+End
+
+IT
+Tree1 0
+Def T-Tree1 1 0 R
+	I ;
+	Re "F" If v0 = "E" ;
+	T-Bi v0 ;
+	Re "A" If v2 = "A" ;
+	L v0 ;
+	R v0 ;
+	L v5 ;
+	R v5 ;
+	L v7 ;
+	R v7 ;
+	T-Tree1 v6 ;
+	T-Tree1 v8 ;
+	Re "A" If v4 = "andb" && v10 = "A" && v11 = "A" ;
+	Re "A" If v4 = "orb" && v10 = "A" && v11 = "A" ;
+	Re "A" If v4 = "xorb" && v10 = "A" && v11 = "A" ;
+	Re "A" If v4 = "notb" && v10 = "A" ;
+	Re "F" ;
+End
+
+IF
+Def And 2 2 Bi
+	I-Bi ;
+	I-Bi ;
+	Re '0' If v0 = '0' ;
+	Re v1 ;
+End
+
+IF
+Def Xor 2 2 Bi
+	I-Bi ;
+	I-Bi ;
+	Re '0' If v0 = v1 ;
+	Re '1' ;
+End
+
+IF
+Def Or 2 2 Bi
+	I-Bi ;
+	I-Bi ;
+	Re v1 If v0 = '0' ;
+	Re '1' ;
+End
+
+IF
+Def Not 1 2 Bi
+	I-Bi ;
+	Re '1' If v0 = '0' ;
+	Re '0' ;
+End
+
+IF
+Def Plus01 2 1 L
+	I-Bi ;
+	I-L ;
+	Re v1 If v0 = '0' ;
+	C v0 v1 ;
+	Re v3 If v1 = 'E' ;
+	L v1 ;
+	R v1 ;
+	Xor v0 v5 ;
+	And v0 v5 ;
+	Plus01 v8 v6 ;
+	C v7 v9 ;
+	Re v10 ;
+End
+
+IF
+Def Plus 2 3 L
+	I-L ;
+	I-L ;
+	Re v0 If v1 = 'E' ;
+	Re v1 If v0 = 'E' ;
+	L v0 ;
+	R v0 ;
+	L v1 ;
+	R v1 ;
+	Plus v5 v7 ;
+	And v4 v6 ;
+	Plus01 v9 v8 ;
+	Xor v4 v6 ;
+	C v11 v10 ;
+	Re v12 ;
+End
+
+IF
+Def GetE 0 1 L
+	Re 'E' ;
+End
+
+IF
+Def ToL 1 1 L
+	I-Bi ;
+	GetE ;
+	C v0 v1 ;
+	Re v2 ;
+End
+
+IF
+Def Mul01' 2 3 L
+	I-Bi ;
+	I-L ;
+	Re v1 If v0 = '1' ;
+	ToL v0 ;
+	Re v3 ;
+End
+
+IF
+Def Mul01 2 3 L
+	I-Bi ;
+	I-L ;
+	Re v1 If v0 = '1' ;
+	Re 'E' ;
+End
+
+IF
+Def Mul 2 5 L
+	I-L ;
+	I-L ;
+	Re v0 If v0 = 'E' ;
+	Re v1 If v1 = 'E' ;
+	L v0 ;
+	R v0 ;
+	L v1 ;
+	R v1 ;
+	Mul v5 v1 ;
+	Mul01 v4 v7 ;
+	And v4 v6 ;
+	Plus v8 v9 ;
+	C v10 v11 ;
+	Re v12 ;
+End
+
+IF
+Def EBT 1 4 Bi
+	I-Tree1 ;
+	T-Bi v0 ;
+	Re v0 If v1 = "A" ;
+	L v0 ;
+	R v0 ;
+	L v4 ;
+	R v4 ;
+	L v6 ;
+	EBT v5 ;
+	Not v8 ;
+	Re v9 If v3 = "notb" ;
+	EBT v7 ;
+	And v8 v11 ;
+	Re v12 If v3 = "andb" ;
+	Or v8 v11 ;
+	Re v14 If v3 = "orb" ;
+	Xor v8 v11 ;
+	Re v16 If v3 = "xorb" ;
+End
+
+IF
+Def Cmp 2 0 Cmp-res
+	I-L ;
+	I-L ;
+	Re "=" If v0 = "E" && v1 = "E" ;
+	Re "<" If v0 = "E" ;
+	Re ">" If v1 = "E" ;
+	L v0 ;
+	R v0 ;
+	L v1 ;
+	R v1 ;
+	Cmp v6 v8 ;
+	Re v9 If v9 = "<" ;
+	Re v9 If v9 = ">" ;
+	Re "=" If v5 = v7 ;
+	Re "<" If v7 = "1" ;
+	Re ">" If v5 = "1" ;
+End
+
+IF
+Def Geta 0 1 Cmp-res
+	Re '=' ;
+End
+
+IF
+Def Getb 0 1 Cmp-res
+	Re '<' ;
+End
+
+IF
+Def Getc 0 1 Cmp-res
+	Re '>' ;
+End
+
+IF
+Def Cmp2 2 0 Cmp-res
+	I-L ;
+	I-L ;
+	Geta ;
+	Re v2 If v0 = v1  ;
+	R v0 ;
+	Getc ;
+	Re v5 If v1 = "E"  ;
+	L v0 ;
+	Getb ;
+	Re v8 If v0 = v4  ;
+	R v1 ;
+	L v4 ;
+	Cmp2 v10 v4 ;
+	Cmp2 v4 v10 ;
+	Re v13 If v5 = v12  ;
+	Re v13 If v5 = v13  ;
+	L v10 ;
+	L v1 ;
+	Re v2 If v7 = v17  ;
+	Re v8 If v7 = "0"  ;
+	Re v5 ;
+End
+
+
+
+winla
+
+EXIT
+
+EF
+Cmp
+( "1" ( "0" "E" ) )
+( "1" ( "1" "E" ) )
+
+EF
+Cmp
+( "1" ( "0" ( "1" ( "0" ( "0" ( "1" "E" ) ) ) ) ) )
+( "1" ( "1" ( "1" ( "1" "E" ) ) ) )
+
+Runcmp
+EXIT
+
+OF
+EBT
+
+EF
+EBT
+( "1" "0" )
+
+EXIT
+
+EF
+EBT
+( "notb" ( "1" "E" ) )
+
+EF
+EBT
+( "xorb" ( ( "notb" ( "1" "E" ) ) ( ( "andb" ( "1" ( "0" "E" ) ) ) "E" ) ) )
+
+EF
+Plus
+( "0" ( "1" ( "1" "E" ) ) )
+( "1" ( "1" "E" ) )
+
+EF
+Plus
+( "1" ( "0" ( "1" ( "0" ( "0" ( "1" "E" ) ) ) ) ) )
+( "1" ( "1" ( "1" ( "1" "E" ) ) ) )
+
+EF
+Mul
+( "1" ( "0" ( "1" ( "0" ( "0" ( "1" "E" ) ) ) ) ) )
+( "1" ( "1" ( "1" ( "1" "E" ) ) ) )
+
+
+EXIT
+
